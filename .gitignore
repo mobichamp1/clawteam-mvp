@@ -1,0 +1,37 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+.venv/
+.venv3/
+.env
+.venv4/
+.env?
+!.env.example
+
+# ClawTeam data
+.clawteam/
+*.swp
+*.swo
+
+# tmux
+.tmux/
+.nflx/
+session.log
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Editors
+.vscode/
+.idea/
+*.sublime-*
+
+# Python
+pip-log.txt
+*.pyc
