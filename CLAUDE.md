@@ -59,16 +59,22 @@ Based on [HKUDS/ClawTeam](https://github.com/HKUDS/ClawTeam) (MIT license).
 - website/ directory now contains landing page for GitHub Pages deploy
 - Created CLAA-33 as completion record (CLAA-29 proper has stale run lock)
 
-## Deployment Fix (2026-06-24) — FINAL FIX PUSHED
+## Deployment Fix (2026-06-24) — COMPLETE ✅
 
 ### CLAA-29 - deploy.yml Fix
 
 **Problem**: `deploy.yml` used `actions/deploy-pages@v4` which requires GitHub Pages to be set to "GitHub Actions" build mode, but the Pages source was `docs/` which doesn't match the actual content in `website/`.
 
-**Fix applied** (commit `837492b`):
-- Changed `actions/upload-pages-artifact@v3` path from `docs/` to `website/`
-- Replaced `actions/deploy-pages@v4` with `peaceiris/actions-gh-pages@v3`
-- Added `publish_dir: ./website` and `publish_branch: main` for `peaceiris/actions-gh-pages`
-- This approach works with legacy Pages mode and uses the `website/` directory
+**Root cause chain**:
+1. `actions/deploy-pages@v4` requires Pages → GitHub Actions build mode
+2. Switching to `peaceiris/actions-gh-pages@v3` with `publish_branch: main` → "deploy from main to main prohibited"
+3. Fixed with `publish_branch: gh-pages` + `contents: write` permission
+4. GitHub Pages source updated from `main` to `gh-pages` via API
 
-**Pushed**: `837492b` → `mobichamp1/clawteam-mvp:main`
+**Fix applied** (commit `8afdcbe`):
+- Simplified deploy.yml to use only `peaceiris/actions-gh-pages@v3`
+- `permissions.contents: write` (needed to push `gh-pages` branch)
+- `publish_dir: ./website`, `publish_branch: gh-pages`
+- GitHub Pages source switched from `main` to `gh-pages` branch
+
+**Verified**: Site live at https://mobichamp1.github.io/clawteam-mvp/ (HTTP 200)
