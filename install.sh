@@ -3,7 +3,9 @@
 set -e
 
 echo "Installing ClawTeam..."
-pip install clawteam
+git clone https://github.com/HKUDS/ClawTeam.git /tmp/clawteam-src
+cd /tmp/clawteam-src
+pip install -e .
 
 echo ""
 echo "✅ ClawTeam installed!"

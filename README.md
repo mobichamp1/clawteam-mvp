@@ -14,7 +14,8 @@
 
 ```bash
 # Install ClawTeam
-curl -fsSL https://raw.githubusercontent.com/clawteam/clawteam/main/scripts/install_clawteam.sh | bash
+git clone https://github.com/HKUDS/ClawTeam.git /tmp/clawteam-src
+cd /tmp/clawteam-src && pip install -e .
 
 # Launch the landing page
 open website/index.html

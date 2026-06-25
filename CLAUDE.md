@@ -69,7 +69,7 @@ Based on [HKUDS/ClawTeam](https://github.com/HKUDS/ClawTeam) (MIT license).
 1. `actions/deploy-pages@v4` requires Pages → GitHub Actions build mode
 2. Switching to `peaceiris/actions-gh-pages@v3` with `publish_branch: main` → "deploy from main to main prohibited"
 3. Fixed with `publish_branch: gh-pages` + `contents: write` permission
-4. GitHub Pages source updated from `main` to `gh-pages` via API
+4. GitHub Pages source updated from `main` to `gh-pages` branch via API
 
 **Fix applied** (commit `8afdcbe`):
 - Simplified deploy.yml to use only `peaceiris/actions-gh-pages@v3`
@@ -78,3 +78,61 @@ Based on [HKUDS/ClawTeam](https://github.com/HKUDS/ClawTeam) (MIT license).
 - GitHub Pages source switched from `main` to `gh-pages` branch
 
 **Verified**: Site live at https://mobichamp1.github.io/clawteam-mvp/ (HTTP 200)
+
+---
+
+## CLAA-42 — Phase 1: Upstream Assessment and Running State (2026-06-25)
+
+### Upstream: HKUDS/ClawTeam
+
+| Metric | Value |
+|--------|-------|
+| Stars | 5,400 |
+| Forks | 735 |
+| Commits | 217 |
+| Latest release | v0.2.0 (March 23, 2026) |
+| License | MIT |
+| Repo | github.com/HKUDS/ClawTeam |
+
+**What the upstream provides** (217 commits, Python package):
+- Full `clawteam` Python CLI (`pip install clawteam`)
+- `clawteam spawn`, `clawteam team`, `clawteam task`, `clawteam inbox`, `clawteam board`
+- Skill integration for Claude Code, Codex, OpenClaw, nanobot, etc.
+- Team templates (TOML): AI Hedge Fund, Agentic Engineering, AutoResearch
+- Git worktree isolation per agent, tmux backend, file-based inbox
+- Web UI dashboard, P2P ZeroMQ transport, multi-user, plan approval
+- v0.3 roadmap: Redis transport, shared state, agent marketplace
+
+### MVP Gap Analysis
+
+The current MVP (`mobichamp1/clawteam-mvp`) contains only:
+- `website/index.html` — landing page ✅
+- `demo/hedge-fund-demo.sh` — demo launcher script (calls `clawteam` CLI)
+- `demo/dev-team-demo.sh` — dev team demo
+- `install.sh` — install stub
+- `.github/workflows/deploy.yml` — GitHub Pages CI/CD ✅
+
+**Critical issues:**
+
+1. **`install.sh` and README reference wrong URL**: Install script says `clawteam/clawteam` repo which doesn't exist. Actual pip package is in `HKUDS/ClawTeam`. Landing page also links to `github.com/clawteam/clawteam` which is a 404.
+
+2. **`clawteam` CLI is not installed anywhere in this repo**: The demo scripts call `clawteam launch hedge-fund` but there's no actual `clawteam` Python package here. Users would need to `pip install clawteam` from HKUDS/ClawTeam first.
+
+3. **Landing page says "pip install clawteam" but that package doesn't exist on PyPI**: The upstream publishes from `HKUDS/ClawTeam` via `pip install -e .` or their install script — not a standard PyPI release.
+
+### Running State
+
+| Component | Status |
+|-----------|--------|
+| Landing page (website/) | ✅ Live at mobichamp1.github.io/clawteam-mvp/ |
+| deploy.yml | ✅ Working, pushes to gh-pages |
+| Demo scripts | ⚠️ Require `clawteam` CLI (not in this repo) |
+| install.sh | ❌ References wrong/non-existent GitHub URL |
+| README links | ❌ `github.com/clawteam/clawteam` is 404 |
+
+### Immediate Fixes Needed (CLAA-42 follow-up)
+
+1. **Fix install.sh** — point to `HKUDS/ClawTeam` or the actual install script
+2. **Fix landing page links** — update `github.com/clawteam/clawteam` → `github.com/HKUDS/ClawTeam`
+3. **Fix README.md** — update install URL
+4. **Consider**: Should this MVP ship the actual `clawteam` package, or remain a landing-page-only repo?
