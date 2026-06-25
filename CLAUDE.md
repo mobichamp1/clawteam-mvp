@@ -45,10 +45,22 @@ clawteam workspace list
 - `clawteam/mcp/` — MCP server (`clawteam-mcp`)
 - `website/` — React web UI (Vite, deployed separately)
 
+## Fork Status (CLAA-47 ✅ COMPLETE)
+
+**HKUDS/ClawTeam forked to:** https://github.com/mobichamp1/ClawTeam
+
+The fork inherits the upstream name (`ClawTeam`, not `clawteam-mvp`). Cherry-picked from `clawteam-mvp`:
+- `30d08f3` — docs: update deployment status
+- `289eab4` — Fix install.sh, README, and landing page links to point to HKUDS/ClawTeam
+
+Pushed: `0119833..289eab4 main -> main` on mobichamp1/ClawTeam
+
+**clawteam-mvp** remains a separate landing-page-only repo at mobichamp1.github.io/clawteam-mvp/.
+
 ## MVP Extension Plan (CLAA-42 children)
 
-### CLAA-47 (Backend, blocked — needs GitHub write access)
-Push `main` branch to mobichamp1 origin. Currently blocked on `gh auth login`.
+### CLAA-47 ✅ Done — Fork HKUDS/ClawTeam to mobichamp1
+Completed: mobichamp1/ClawTeam is live.
 
 ### CLAA-48 (Frontend)
 Adapt upstream React `website/` to mobichamp1 branding.
@@ -60,5 +72,5 @@ Adapt upstream React `website/` to mobichamp1 branding.
 ## Status
 
 - CLAA-42 Phase 1: ✅ Done
-- CLAA-47: Blocked (GitHub auth needed)
+- CLAA-47: ✅ Done (forked to mobichamp1/ClawTeam)
 - CLAA-48: Pending
