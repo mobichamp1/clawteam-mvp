@@ -14,7 +14,7 @@
 
 ```bash
 # Install ClawTeam
-git clone https://github.com/HKUDS/ClawTeam.git /tmp/clawteam-src
+git clone https://github.com/mobichamp1/ClawTeam.git /tmp/clawteam-src
 cd /tmp/clawteam-src && pip install -e .
 
 # Launch the landing page
@@ -48,4 +48,5 @@ Spins up: architect + backend + frontend + tester.
 
 ## Docs
 
-Full documentation: [https://github.com/clawteam/clawteam](https://github.com/clawteam/clawteam)
+Full documentation: [https://github.com/mobichamp1/ClawTeam](https://github.com/mobichamp1/ClawTeam)
+
