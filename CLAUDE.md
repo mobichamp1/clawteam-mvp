@@ -1,93 +1,64 @@
-# ClawTeam MVP
+# ClawTeam MVP — Backend Developer Workspace
 
 ## Overview
 
-ClawTeam is an open-source CLI tool that orchestrates multiple AI agents as a team. This repo (`mobichamp1/clawteam-mvp`) is the local product — fork of HKUDS/ClawTeam with our custom branding and MCP server extension for Claude Code / OpenClaw.
+This workspace (`mobichamp1/clawteam-mvp`) is the product repo for ClawTeam.
+Board confirmed: **fork-and-extend** HKUDS/ClawTeam.
 
-## Repositories
+## Branches
 
-- **Product repo (fork):** `mobichamp1/ClawTeam` — fork of HKUDS/ClawTeam, ships the actual Python CLI
-- **Landing page repo:** `mobichamp1/clawteam-mvp` — GitHub Pages landing page + demo scripts
+- `main` — upstream HKUDS/ClawTeam v0.3.0 (current active branch)
+- `main-landing` — old static landing page (archived, superseded by upstream React website)
+
+## Repository
+
+- **GitHub:** https://github.com/mobichamp1/clawteam-mvp
+- **Upstream:** https://github.com/HKUDS/ClawTeam (5,350 stars, active May 2026)
+
+## Installing
+
+```bash
+pip install -e .
+clawteam --version  # v0.3.0
+```
 
 ## Key Commands
 
 ```bash
-# Install ClawTeam (from our fork)
-pip install git+https://github.com/mobichamp1/ClawTeam.git
-
-# Or install from upstream
-pip install clawteam
-
-# Launch the AI hedge fund demo (7 agents)
-clawteam launch hedge-fund --team-name my-hedge-fund
-
-# Watch team progress
-clawteam team status <team-name>
-
-# Block until all tasks complete
-clawteam task wait <team-name>
+clawteam template list         # Show builtin templates
+clawteam launch hedge-fund -g "Analyze AAPL"  # Launch template (needs tmux)
+clawteam board serve          # Start web UI dashboard (port 8080)
+clawteam board serve --port 8081  # Alternative port
+clawteam run claude "task"    # Wrap a CLI agent with lifecycle management
+clawteam spawn tmux --agent-name foo --task "do stuff"
+clawteam workspace list
 ```
 
-## Architecture
+## Architecture (from upstream)
 
-- `ClawTeam/` — Forked product repo (Python CLI, MCP server, React web UI)
-- `website/` (in clawteam-mvp) — Landing page source
-- `docs/` (build output) — Compiled landing page + assets
-- `.github/workflows/deploy.yml` — Auto-deploys docs/ to GitHub Pages (gh-pages branch)
+- `clawteam/` — Python package (typer CLI, pydantic models, rich TUI)
+- `clawteam/spawn/` — Agent spawning (tmux, subprocess backends)
+- `clawteam/board/` — Kanban task board (file-based, web UI)
+- `clawteam/workspace/` — Git worktree isolation
+- `clawteam/harness/` — Plan-then-execute orchestration
+- `clawteam/templates/` — TOML team archetypes (hedge-fund, software-dev, etc.)
+- `clawteam/mcp/` — MCP server (`clawteam-mcp`)
+- `website/` — React web UI (Vite, deployed separately)
 
-## Deployment Status
+## MVP Extension Plan (CLAA-42 children)
 
-### Landing Page (clawteam-mvp)
-- **URL:** https://mobichamp1.github.io/clawteam-mvp/
-- **Source:** `ClawTeam/docs/` (built from upstream React app)
-- **Deploy:** Pushes to `gh-pages` branch via `peaceiris/actions-gh-pages@v3`
-- **Status:** ✅ Live
+### CLAA-47 (Backend, blocked — needs GitHub write access)
+Push `main` branch to mobichamp1 origin. Currently blocked on `gh auth login`.
 
-### MCP Server (in ClawTeam fork)
-The fork includes a full MCP server at `clawteam/mcp/` with tools:
-- `board_overview`, `board_team` — team board summaries
-- `task_list`, `task_get`, `task_create`, `task_update` — task management
-- `team_status`, `team_snapshot` — team state
-- `inbox_messages`, `inbox_send` — agent messaging
-- `workspace_list`, `workspace_run` — workspace operations
-- `cost_summary` — budget tracking
+### CLAA-48 (Frontend)
+Adapt upstream React `website/` to mobichamp1 branding.
 
-## CLAA-42 — Phase 2: Fork and Running State (2026-06-25)
+### Future extensions
+- MCP server tools for Claude Code / OpenClaw integration
+- Workspace sync between ClawTeam and agent IDEs
 
-### Board Decision
-**Fork-and-extend** was confirmed by board. mobichamp1/ClawTeam is now forked from HKUDS/ClawTeam.
+## Status
 
-### Phase 2 Actions Taken
-
-**Fork created:** `mobichamp1/ClawTeam` forked from `HKUDS/ClawTeam`
-- 5 upstream branches tracked: main, feat/desktop, feat/profile, feat/gource-acpx-context, open-harness
-
-**clawteam v0.3.0 installed from fork:**
-```
-pip install -e ClawTeam/  # installed from /home/niek/.../ClawTeam
-```
-
-**End-to-end demo verified:** `clawteam launch hedge-fund --team-name hf-fork-test`
-- 7 agents spawned (portfolio-manager, buffett-analyst, growth-analyst, technical-analyst, fundamentals-analyst, sentiment-analyst, risk-manager)
-- All agents registered with tmux backend
-- Tasks created and tracked in kanban board
-
-**Landing page build verified:** `npm run build` in ClawTeam/ → `docs/`
-- Builds to 158KB JS + 11KB CSS + 835KB icon
-- React app with animated globe, agent orbit visualization, terminal mockup
-
-### Phase 2 Remaining (Delegated)
-
-**Frontend Developer next steps:**
-1. Copy `ClawTeam/docs/` built assets to `clawteam-mvp/website/` or adapt `deploy.yml` to build from ClawTeam/
-2. Update `website/index.html` links to point to `mobichamp1/ClawTeam` (from HKUDS/ClawTeam)
-3. Deploy updated landing page
-
-**Backend Developer (MCP extension):**
-1. Extend `clawteam/mcp/tools/` with Claude Code / OpenClaw-specific tools
-2. Test MCP server with Claude Code: `clawteam mcp start`
-3. Add workspace sync between ClawTeam and Claude Code projects
-
-### Push Status
-- `da18146` pushed to `mobichamp1/clawteam-mvp` ✅
-- `ClawTeam/` fork cloned locally at `~/.../ClawTeam/`
+- CLAA-42 Phase 1: ✅ Done
+- CLAA-47: Blocked (GitHub auth needed)
+- CLAA-48: Pending
